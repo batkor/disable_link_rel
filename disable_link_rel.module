@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * Implements hook_page_attachments_alter().
+ *
+ * @param array $attachments
+ */
+function disable_link_rel_page_attachments_alter(array &$attachments) {
+  $config = \Drupal::getContainer()->get('config.factory')
+    ->getEditable('disable_link_rel.import');
+  $enable = $config->get('enable', FALSE);
+  if ($enable) {
+    if (!isset($attachments['#attached']['html_head_link'])) {
+      return;
+    }
+    $links_text = explode(',', $config->get('links', ''));
+    array_walk_recursive($links_text, function ($value) use (&$unset_html_head_link) {
+      $unset_html_head_link[] = trim($value);
+    });
+    foreach ($attachments['#attached']['html_head_link'] as $key => $value) {
+      if (isset($value[0]['rel']) && in_array($value[0]['rel'], $unset_html_head_link)) {
+        unset($attachments['#attached']['html_head_link'][$key]);
+      }
+    }
+  }
+
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function disable_link_rel_module_implements_alter(&$implementations, $hook) {
+  $config = \Drupal::getContainer()->get('config.factory')
+    ->getEditable('disable_link_rel.import');
+  $enable = $config->get('enable', FALSE);
+  if ($enable) {
+    if ($hook === 'page_attachments_alter') {
+      $group = $implementations['disable_link_rel'];
+      unset($implementations['disable_link_rel']);
+      $implementations['disable_link_rel'] = $group;
+    }
+  }
+}
