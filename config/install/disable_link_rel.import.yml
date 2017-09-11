@@ -1,2 +1,2 @@
 links: "canonical, shortlink, delete-form, edit-form, version-history, revision, devel-load, devel-render, devel-definition, token-devel"
-enable: false
+enable: true
