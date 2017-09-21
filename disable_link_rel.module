@@ -41,3 +41,21 @@ function disable_link_rel_module_implements_alter(&$implementations, $hook) {
     }
   }
 }
+
+/**
+ * Implements hook_link_alter().
+ */
+function disable_link_rel_link_alter(&$variables) {
+  $config = \Drupal::getContainer()->get('config.factory')
+    ->getEditable('disable_link_rel.import');
+  $enable = $config->get('remove_link_attr', FALSE);
+  if ($enable) {
+    $attr_list = explode(',', $config->get('remove_link_attr_list', ''));
+    foreach ($attr_list as $attr) {
+      if (array_key_exists($attr, $variables['options']['attributes'])) {
+        unset($variables['options']['attributes'][$attr]);
+      }
+    }
+  }
+
+}
