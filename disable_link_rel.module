@@ -51,7 +51,10 @@ function disable_link_rel_link_alter(&$variables) {
   $enable = $config->get('remove_link_attr', FALSE);
   if ($enable) {
     $attr_list = explode(',', $config->get('remove_link_attr_list', ''));
-    foreach ($attr_list as $attr) {
+    array_walk_recursive($attr_list, function ($value) use (&$unset_attr_list) {
+      $unset_attr_list[] = trim($value);
+    });
+    foreach ($unset_attr_list as $attr) {
       if (array_key_exists($attr, $variables['options']['attributes'])) {
         unset($variables['options']['attributes'][$attr]);
       }
