@@ -35,32 +35,32 @@ class SettingDisableLinkRel extends ConfigFormBase {
     $config = $this->config('disable_link_rel.import');
 
     $form['enable'] = [
-      '#title'         => 'Удалить rel ссылки с раздела head',
+      '#title'         => $this->t('Remove rel link to head'),
       '#type'          => 'checkbox',
       '#default_value' => $config->get('enable') ? $config->get('enable') : NULL,
     ];
 
     $form['links'] = [
-      '#title'         => 'Введите значения атрибута для удаления',
+      '#title'         => $this->t('Enter the values for the attribute to delete'),
       '#type'          => 'textfield',
       '#default_value' => $config->get('links') ? $config->get('links') : '',
-      '#description' => 'Введите атрибуты через запятую. Например: <i>canonical, shortlink, delete-form</i>'
+      '#description' => $this->t('Enter the attributes separated by commas. Example: <i>canonical, shortlink, delete-form</i>')
     ];
 
     $form['remove_link_attr'] = [
-      '#title'         => 'Удалить атрибуты из ссылок',
+      '#title'         => $this->t('Remove attributes from links'),
       '#type'          => 'checkbox',
       '#default_value' => $config->get('remove_link_attr') ? $config->get('remove_link_attr') : NULL,
     ];
 
     $form['remove_link_attr_list'] = [
-      '#title'         => 'Введите атрибуты для удаления',
+      '#title'         => $this->t('Enter attributes to delete'),
       '#type'          => 'textfield',
       '#default_value' => $config->get('remove_link_attr_list') ? $config->get('remove_link_attr_list') : '',
-      '#description' => 'Введите атрибуты через запятую. Например: <i>data-drupal-link-system-path, system-path</i>'
+      '#description' => $this->t('Enter the attributes separated by commas. Example: <i>data-drupal-link-system-path, system-path</i>')
     ];
     $form['cach_clear'] = [
-      '#title'         => 'Очистить кэш при сохранении настроек',
+      '#title'         => $this->t('Clear cache when saving settings'),
       '#type'          => 'checkbox',
       '#default_value' => TRUE,
     ];
